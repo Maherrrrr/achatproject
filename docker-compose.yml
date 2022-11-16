@@ -1,22 +1,20 @@
-version: "3.8"
+version: "3"
 
 services:
   mysqldb:
-    image: mysql:5.7
+    image: mysql
+    container_name: mysqldb
     restart: unless-stopped
-    env_file: ./.env
     environment:
-      - MYSQL_ROOT_PASSWORD=$MYSQLDB_ROOT_PASSWORD
-      - MYSQL_DATABASE=$MYSQLDB_DATABASE
+      - MYSQL_DATABASE=achatdb
     ports:
-      - $MYSQLDB_LOCAL_PORT:$MYSQLDB_DOCKER_PORT
+      - 3306:3306
     volumes:
       - db:/var/lib/mysql
-  
-     app:
+  app:
     depends_on:
       - mysqldb
-    image: maheraliesprit/achatdevops:latest
+    image: maheraliesprit/achat:latest
     restart: on-failure
     ports:
       - 8091:8091
